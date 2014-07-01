@@ -1,0 +1,76 @@
+import json
+import webapp2
+
+import re
+import datetime
+
+import modelInventory
+import modelUser
+
+def AsDateObject(d,t):
+  dateMatch = re.match('.*(\d{4}-\d{2}-\d{2}).*',d)
+  dateValue = dateMatch.groups()[0].split('-')
+  dateValue = [int(dv) for dv in dateValue]
+
+  timeMatch = re.match('.*(\d{2}:\d{2}).*',t)
+  timeValue = timeMatch.groups()[0].split(':')
+  timeValue = [int(tv) for tv in timeValue]
+
+  return datetime.datetime(dateValue[0], dateValue[1], dateValue[2], timeValue[0], timeValue[1])
+
+class RestHandler(webapp2.RequestHandler):
+
+  def dispatch(self):
+    #time.sleep(1)
+    super(RestHandler, self).dispatch()
+
+
+  def SendJson(self, r):
+    self.response.headers['content-type'] = 'text/plain'
+    self.response.write(json.dumps(r))
+
+class UserHandler(RestHandler):
+  def post(self):
+    r = json.loads(self.request.body)
+    user = modelUser.InsertUser(r['email'], r['firebaseUid'], r['firebaseId'])
+    r = modelUser.AsDict(user)
+    self.sendJson(r)
+
+class InventoryHandler(RestHandler):
+
+  def get(self, storeId):
+    inventory = modelInventory.AllInventory()
+    r = [ modelInventory.AsDict(inv) for inv in inventory ]
+    self.SendJson(r)
+
+  def post(self, storeId):
+    r = json.loads(self.request.body)
+    inventory = modelInventory.InsertInventory(AsDateObject(r['purchaseDate'], r['purchaseTime']),r['owner'], r['itemNumber'], r['purchasePrice'])
+    r = modelInventory.AsDict(inventory)
+    self.SendJson(r)
+
+class ItemHandler(RestHandler):
+
+  def get(self, storeId, id):
+    inventory = modelInventory.RetrieveInventory()
+    r = modelInventory.AsDict(inventory)
+    self.SendJson(r)
+
+  def post(self, storeId, id):
+    r = json.loads(self.request.body)
+    inventory = modelInventory.UpdateInventory(r['id'], r['owner'], r['itemNumber'])
+    r = modelInventory.AsDict(inventory)
+    self.SendJson(r)
+
+  def delete(self, storeId, id):
+    modelInventory.DeleteInventory(int(id))
+
+
+
+APP = webapp2.WSGIApplication([
+    ('/rest/store/(\d+)/inventory', InventoryHandler),
+    ('/rest/store/(\d+)/inventory/(\d+)', ItemHandler),
+    ('/rest/user', UserHandler)
+], debug=True)
+
+

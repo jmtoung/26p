@@ -1,0 +1,8 @@
+#page-wrapper.user-logged-out {
+    margin: 0;
+    background-color: green;
+}
+
+.ng-table {
+    border: 1px solid mediumvioletred;
+}

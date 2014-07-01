@@ -1,0 +1,317 @@
+
+<form role="form" name="addInvForm" novalidate>
+    <div class="row">
+
+        <div class="page-header">
+            <h2>Add Inventory</h2>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>General Information</h4></div>
+
+                <div class="panel-body">
+                    <div class="well" style="border:none; background-color: transparent; border-radius: 0">
+
+                        <div class="row">
+                            <span class="form-group" style="display:inline-block">
+                                <label for="purchaseDate">Purchase Date*</label>
+                                <input type="date" class="form-control" id="purchaseDate" required ng-model="newInv.purchaseDate">
+                            </span>
+                            <span class="form-group" style="display:inline-block">
+                                <label for="purchaseTime">Purchase Time</label>
+                                <input type="time" class="form-control" id="purchaseTime" ng-model="newInv.purchaseTime">
+                            </span>
+
+                        </div>
+
+                        <div class="row">
+                            <span class="form-group" style="display: inline-block; margin-bottom:0">
+                                <label for="vendor">Supplier Store*</abbr></label>
+                                <select class="form-control" id="vendor" ng-model="newInv.supplier" name="addInvForm" required ng-options="supplier.displayName for supplier in suppliers" ng-change="selectSupplier()"></select>
+                            </span>
+                            <span class="form-group" style="display: inline-block; margin-bottom:0">
+                                <label for="receiptNumber"><abbr title="or Invoice Number">Receipt Number</abbr></label>
+                                <input type="text" class="form-control" id="receiptNumber" required ng-model="newInv.receiptNumber">
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>Payment Information</h4></div>
+
+                <div class="panel-body">
+                        <span class="form-group" style="display:inline-block; margin-bottom:0">
+                            <label for="purchaser">Purchaser*</label>
+                            <select class="form-control" id="purchaser" ng-model="newInv.purchaser" name="addInvForm" required ng-options="p.displayName for p in purchasers" ng-change="loadPaymentMethods(newInv.purchaser)"></select>
+                        </span>
+                        <span class="form-group" style="display:inline-block; margin-bottom:0">
+                            <label for="paymentMethod">Payment Method*</label>
+                            <select class="form-control" id="paymentMethod" ng-model="newInv.paymentMethod" name="addInvForm" required ng-options="paymentMethod.name group by paymentMethod.type for paymentMethod in paymentMethods"></select>
+                        </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>Item Information</h4></div>
+
+                <div class="well" style="margin:15px; background-color: transparent">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="category">Category*</label>
+                                <input type="text" class="form-control" id="category" required ng-model="newItem.category" placeholder="Category"/>
+                            </span>
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                            <label for="brand">Brand</label>
+                            <input type="text" class="form-control" id="brand" required ng-model="newItem.brand" placeholder="Brand"/>
+                            </span>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="quantity">Quantity*</label>
+                                <input type="number" class="form-control" id="quantity" required ng-model="newItem.quantity" min="1" step="1" placeholder="Quantity" ng-change="updatePrices()"/>
+                            </span>
+                        </div>
+                        <div class="col-md-8">
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="unitPrice">Unit Price*</label>
+                                <input type="number" class="form-control" id="unitPrice" required ng-model="newItem.unitPrice" min="0" step="any" ng-pattern="/^\d*(\.\d{0,2})?$/" placeholder="Unit Price" ng-change="updateTotalPrice()"/>
+                            </span>
+
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="totalPrice">Total Price</label>
+                                <input type="number" class="form-control" id="totalPrice" required ng-model="newItem.totalPrice" min="0" step="any" ng-pattern="/^\d*(\.\d{0,2})?$/" placeholder="Total Price" ng-change="updateUnitPrice()"/>
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="itemNumber">Item Number</label>
+                                <input type="text" class="form-control" id="itemNumber" ng-model="newItem.itemNumber" placeholder="Item Number"/>
+                            </span>
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="itemName">Item Name*</label>
+                                <input type="text" class="form-control" id="itemName" required ng-model="newItem.itemName" placeholder="Item Name"/>
+                            </span>
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="itemSpecifics">Item Specifics</label>
+                                <input type="text" class="form-control" id="itemSpecifics" ng-model="newItem.itemSpecifics" placeholder="Item Specifics"/>
+                            </span>
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="itemSize">Item Size</label>
+                                <input type="text" class="form-control" id="itemSize" ng-model="newItem.itemSize" placeholder="Item Size"/>
+                            </span>
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="itemColor">Item Color</label>
+                                <input type="text" class="form-control" id="itemColor" ng-model="newItem.itemColor" placeholder="Item Color"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="form-group" style="display:inline-block; margin-bottom:0; float:right">
+                                <button ng-click="addNewItem()" class="btn btn-info btn-sm">Add Items</button>
+
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel panel-default" style="...">
+
+
+                </div>
+
+                <div class="panel panel-default" style="margin:15px">
+
+
+
+                    <table class="table">
+                        <tr>
+                            <th>Category</th>
+                            <th style="width=50px">Brand</th>
+                            <th style="width=50px">Quantity</th>
+                            <th style="width=50px">Unit Price</th>
+                            <th style="width=50px">Total Price</th>
+                            <th style="width=50px">Item Number</th>
+                            <th style="width=50px">Item Name</th>
+                            <th>Item Specifics</th>
+                            <th>Item Size</th>
+                            <th>Item Color</th>
+                        </tr>
+
+                        <tr ng-repeat="item in newItems">
+                            <td><input type="text"  ng-model="item.category"></td>
+                            <td><input type="text"  ng-model="item.brand" style="width:50px"></td>
+                            <td><input type="text"  ng-model="item.quantity" style="width:50px"></td>
+                            <td><input type="text"  ng-model="item.unitPrice" style="width:50px"></td>
+                            <td><input type="text"  ng-model="item.totalPrice" style="width:50px"></td>
+                            <td><input type="text"  ng-model="item.itemNumber" style="width:50px"></td>
+                            <td><input type="text"  ng-model="item.itemName" style="width:50px"></td>
+                            <td><input type="text"  ng-model="item.itemSpecifics"></td>
+                            <td><input type="text"  ng-model="item.itemSize"></td>
+                            <td><input type="text"  ng-model="item.itemColor"></td>
+
+                        </tr>
+                    </table>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>Shipping & Tax Information</h4></div>
+
+                <div class="well" style="margin:15px; background-color: transparent">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="subtotal">Subtotal*</label>
+                                <!--<input type="number" class="form-control" id="subtotal" required ng-model="newInv.subtotal" min="0" step="any" ng-pattern="/^\d*(\.\d{0,2})?$/" placeholder="Total Price"/>-->
+                                <span class="form-control" id="subtotal">{{newInv.subtotal | currency}}</span>
+                            </span>
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="taxPercentage">Tax Percentage*</label>
+                                <input type="number" class="form-control" id="taxPercentage" required ng-model="newInv.taxPercentage" min="0" placeholder="Total Tax" ng-change="updateTax()"/>
+                                <!--<input type="number" class="form-control" id="taxPercentage" required ng-model="newInv.taxPercentage" min="0" step="any" ng-pattern="/^\d*(\.\d{0,2})?$/" placeholder="Total Tax" ng-change="updateTax()"/>-->
+                            </span>
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="tax">Tax*</label>
+                                <input type="number" class="form-control" id="tax" required ng-model="newInv.tax" min="0" step="any" ng-pattern="/^\d*(\.\d{0,2})?$/" placeholder="Total Tax" ng-change="updateTaxPercentage()"/>
+                            </span>
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="totalPrice2">Total Price</label>
+                                <span class="form-control" id="totalPrice2">{{newInv.totalPrice2 | currency}}</span>
+                            </span>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <span class="form-group" style="display:inline-block; margin-bottom:0; float:right">
+                <button ng-click="addInventory()" class="btn btn-info btn-sm">Submit Inventory</button>
+            </span>
+        </div>
+
+    </div>
+
+
+</form>
+
+
+
+
+<!--<br>-->
+
+<!--<h2>Add Inventory</h2>-->
+<!--<form name="newInventoryForm" novalidate ng-submit="submitInsert(newInv)">-->
+
+    <!--<p>-->
+        <!--<label>Purchase Date:</label>-->
+        <!--<input type="date" ng-model="newInv.purchaseDate"/>-->
+    <!--</p>-->
+
+    <!--<p>-->
+        <!--<label>Purchase Time:</label>-->
+        <!--<input type="time" ng-model="newInv.purchaseTime"/>-->
+    <!--</p>-->
+
+    <!--<p>-->
+        <!--<label>Owner:</label>-->
+        <!--<input type="text" ng-model="newInv.owner" autofocus="true" placeholder="jmtoung"/>-->
+    <!--</p>-->
+    <!--<p>-->
+        <!--<label>Item Number:</label>-->
+        <!--<input type="text"  ng-model="newInv.itemNumber" placeholder="Item Number"/>-->
+    <!--</p>-->
+
+    <!--<p>-->
+        <!--<label>Brand:</label>-->
+        <!--<input type="text"  ng-model="newInv.brand" placeholder="Brand"/>-->
+    <!--</p>-->
+
+    <!--<p>-->
+        <!--<label>Item Name:</label>-->
+        <!--<input type="text"  ng-model="newInv.brand" placeholder="Item Name"/>-->
+    <!--</p>-->
+
+
+    <!--<p>-->
+        <!--<label>Item Category:</label>-->
+        <!--<input type="text"  ng-model="newInv.brand" placeholder="Item Category"/>-->
+    <!--</p>-->
+
+    <!--<p>-->
+        <!--<label>Purchase Price:</label>-->
+        <!--<input type="number" required ng-model="newInv.purchasePrice" min="0" step="any" ng-pattern="/^\d*(\.\d{0,2})?$/" placeholder="Purchase Price"/>-->
+    <!--</p>-->
+
+    <!--<p>-->
+        <!--<label>Quantity:</label>-->
+        <!--<input type="number" required ng-model="newInv.initialQuantity" min="0" placeholder="Quantity"/>-->
+    <!--</p>-->
+
+    <!--<p>-->
+        <!--<label>Order Number:</label>-->
+        <!--<input type="number" required ng-model="newInv.orderNumber" min="0" placeholder="Order Number"/>-->
+    <!--</p>-->
+
+    <!--<input type="submit" class="btn" ng-disabled="newInventoryForm.$invalid"/>-->
+<!--</form>-->
+

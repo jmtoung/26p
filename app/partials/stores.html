@@ -1,0 +1,42 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="page-header">
+            <h2>Manage Stores</h2>
+        </div>
+
+        <div class="col-md-12">
+            <h4>Stores</h4>
+            <table class="table">
+                <tr>
+                    <th>Store Name</th>
+                    <th>Owner</th>
+                    <th></th>
+                </tr>
+
+                <tr ng-repeat="store in stores">
+                    <td><a href="#/store2"><strong>{{store.name}}</strong></a></td>
+                    <td>{{store.owner.email}}</td>
+                    <td><a ng-click="deleteStore($index)"><i class="fa fa-trash-o fa-fw"></i></a></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--<div class="row">-->
+
+    <!--<div class="page-header">-->
+        <!--<h2>Manage Stores</h2>-->
+    <!--</div>-->
+
+
+    <!--List all the stores here and next to each, have ability to edit the name, add users, etc.-->
+
+
+<!--</div>-->
+
+

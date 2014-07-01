@@ -1,0 +1,91 @@
+
+<container>
+    <div class="well" style="border:none; background-color: transparent; border-radius:0">
+        <form role="form" name="addNewSupplierForm" novalidate>
+            <div class="row">
+
+                <div class="page-header">
+                    <h2>Add New Supplier</h2>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h4>General Information</h4></div>
+
+                        <div class="panel-body">
+                            <div class="well" style="border:none; background-color: transparent; border-radius: 0">
+
+                                <div class="row">
+                                    <span class="form-group" style="display:inline-block">
+                                        <label for="name">Supplier Name*</label>
+                                        <input type="text" class="form-control" id="name" required ng-model="newSupp.name">
+                                    </span>
+                                </div>
+
+                                <div class="row">
+                                    <span class="form-group" style="display: inline-block; margin-bottom:0">
+                                        <label for="address1">Address 1</label>
+                                        <input type="text" class="form-control" id="address1" ng-model="newSupp.address1">
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <span class="form-group" style="display: inline-block; margin-bottom:0">
+                                        <label for="address2">Address 2</label>
+                                        <input type="text" class="form-control" id="address2" ng-model="newSupp.address2">
+                                    </span>
+                                </div>
+
+
+                                <div class="row">
+                                    <span class="form-group" style="display: inline-block; margin-bottom:0">
+                                        <label for="city">City</label>
+                                        <input type="text" class="form-control" id="city" ng-model="newSupp.city">
+                                    </span>
+                                    <span class="form-group" style="display: inline-block; margin-bottom:0">
+                                        <label for="state">State</label>
+                                        <select type="text" class="form-control" id="state" ng-model="newSupp.state" ng-options="state for state in states"></select>
+                                    </span>
+                                    <span class="form-group" style="display: inline-block; margin-bottom:0">
+                                        <label for="zipCode">Zip Code</label>
+                                        <input type="text" class="form-control" id="zipCode" ng-model="newSupp.zipCode" ng-pattern="/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/">
+                                    </span>
+                                </div>
+
+                                <div class="row">
+                                    <span class="form-group" style="display: inline-block; margin-bottom:0">
+                                        <label for="phoneNumber">Phone Number</label>
+                                        <input type="text" class="form-control" id="phoneNumber" ng-model="newSupp.phoneNumber" ng-pattern="/^\(?(\d{3})\)?[ .-]?(\d{3})[ .-]?(\d{4})$/">
+                                    </span>
+                                </div>
+
+                                <div class="row">
+                                    <span class="form-group" style="display: inline-block; margin-bottom:0">
+                                        <label for="website">Website</label>
+                                        <input type="text" class="form-control" id="website" ng-model="newSupp.website">
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-12">
+
+
+                    <button type="submit" class="btn btn-primary btn-block" ng-disabled="addNewSupplierForm.$invalid" ng-click="addSupplier(newSupp)">Add New Supplier</button>
+
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+</container>
+
+
+

@@ -1,0 +1,275 @@
+
+<form role="form" name="addSaleTransactionForm" novalidate>
+    <div class="row">
+
+        <div class="page-header">
+            <h2>Add Sale Transaction</h2>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>Item Information</h4></div>
+
+                <div class="panel-body">
+                    <div class="well" style="border:none; background-color: transparent; border-radius: 0">
+
+
+                        <table class="table">
+                            <tr>
+                                <th>Purchase Date</th>
+                                <!--<th>Purchaser</th>-->
+                                <!--<th>Payment Method</th>-->
+                                <th>Total Price</th>
+                                <th>Item Number</th>
+                                <th>Item Name</th>
+
+                                <th>Item Size</th>
+                                <th>Item Color</th>
+
+                                <th>Sale Price</th>
+                                <th>Sale Tax</th>
+                                <th>Sale Quantity</th>
+                            </tr>
+
+                            <tr ng-repeat="saleItem in newSaleTrans.saleItems">
+                                <td>{{saleItem.inventory.purchaseDate}}</td>
+                                <!--<td>{{i.purchaser.displayName}}</td>-->
+                                <!--<td>{{i.paymentMethod.displayName}}</td>-->
+                                <td>{{saleItem.inventory.unitPrice | currency}}</td>
+                                <td>{{saleItem.inventory.itemNumber}}</td>
+                                <td>{{saleItem.inventory.itemName}}</td>
+
+                                <td>{{saleItem.inventory.itemSize}}</td>
+                                <td>{{saleItem.inventory.itemColor}}</td>
+
+                                <td><input type="number"  ng-model="saleItem.salePrice"></td>
+                                <td><input type="number"  ng-model="saleItem.saleTax"></td>
+                                <td><input type="number"  ng-model="saleItem.saleQuantity"></td>
+
+                            </tr>
+                        </table>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>Sale Information</h4></div>
+
+                <div class="well" style="margin:15px; background-color: transparent">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                                <span class="form-group" style="display:inline-block">
+                                    <label for="purchaseDate">Sale Date*</label>
+                                    <input type="date" class="form-control" id="purchaseDate" ng-model="newSaleTrans.saleDate">
+                                </span>
+                                <span class="form-group" style="display:inline-block">
+                                    <label for="purchaseTime">Sale Time*</label>
+                                    <input type="time" class="form-control" id="purchaseTime" ng-model="newSaleTrans.saleTime">
+                                </span>
+
+ <!---->
+                                <!--<span class="form-group" style="display:inline-block; margin-bottom:0">-->
+                                    <!--<label for="saleQuantity">Sale Quantity</label>-->
+                                    <!--<input type="number" class="form-control" id="saleQuantity" required ng-model="newSaleTrans.saleQuantity" min="1" step="1" placeholder="Quantity"/>-->
+                                <!--</span>-->
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>Selling Method</h4></div>
+
+                <div class="well" style="margin:15px; background-color: transparent">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="form-group" style="display:inline-block">
+                                <label for="sellingMethod">Selling Method*</label>
+                                <input type="text" class="form-control" id="sellingMethod" required ng-model="newSaleTrans.sellingMethod">
+                            </span>
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="sellingMethodFeesPaymentMethodDefault">Payment Method for Ebay Fees</label>
+                                <select class="form-control" id="sellingMethodFeesPaymentMethodDefault" ng-model="sellingMethodFeesPaymentMethod" required ng-options="paymentMethod.displayName group by paymentMethod.type for paymentMethod in currentStore.paymentMethods"></select>
+                            </span>
+                            <br>
+
+                            <div>
+                                <label for="sellingMethodFees">Payment Method for Ebay Fees</label>
+                                <table class="table" id="sellingMethodFees">
+                                    <tr ng-repeat-start="saleItem in newSaleTrans.saleItems">
+                                        {{saleItem}}
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Fee Payment Method</th>
+                                    </tr>
+                                    <tr ng-repeat="fee in saleItem.sellingMethodFees">
+                                        <td><input type="text"  ng-model="fee.name"></td>
+                                        <td><input type="number"  ng-model="fee.amount"></td>
+                                        <td><select class="form-control" ng-model="fee.paymentMethod" ng-options="paymentMethod.displayName group by paymentMethod.type for paymentMethod in currentStore.paymentMethods"></select></td>
+                                    </tr>
+                                    <tr ng-repeat-end></tr>
+
+
+
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>Payment Information</h4></div>
+
+                <div class="well" style="margin:15px; background-color: transparent">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="paymentMethod">Payment Method</label>
+                                <select class="form-control" id="paymentMethod" ng-model="newSaleTrans.paymentMethod" required ng-options="paymentMethod.displayName group by paymentMethod.type for paymentMethod in currentStore.paymentMethods"></select>
+                            </span>
+                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                <label for="paymentMethodFeesPaymentMethodDefault">Payment Method for Ebay Fees</label>
+                                <select class="form-control" id="paymentMethodFeesPaymentMethodDefault" ng-model="paymentMethodFeesPaymentMethodDefault" required ng-options="paymentMethod.displayName group by paymentMethod.type for paymentMethod in currentStore.paymentMethods"></select>
+                            </span>
+
+
+                        </div>
+                        <div>
+                            <label for="paymentMethodFeesPaymentMethod">Payment Method for Fees</label>
+                            <table class="table" id="paymentMethodFeesPaymentMethod">
+                                <tr>
+                                    {{saleItem}}
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Fee Payment Method</th>
+                                </tr>
+                                <tr ng-repeat="fee in newSaleTrans.paymentMethodFees">
+                                    <td><input type="text"  ng-model="fee.name"></td>
+                                    <td><input type="number"  ng-model="fee.amount"></td>
+                                    <td><select class="form-control" ng-model="fee.paymentMethod" ng-options="paymentMethod.displayName group by paymentMethod.type for paymentMethod in currentStore.paymentMethods"></select></td>
+                                </tr>
+
+
+
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>Shipping Information</h4></div>
+
+                <div class="well" style="margin:15px; background-color: transparent">
+
+                    <div class="row" ng-repeat="shipment in newSaleTrans.shipping ">
+                        <div class="col-md-12">
+                            <span class="form-group" style="display:inline-block">
+                                <label for="shippingCarrier">Carrier</label>
+                                <input type="text" class="form-control" id="shippingCarrier" ng-model="shipment.carrier">
+                            </span>
+                            <span class="form-group" style="display:inline-block">
+                                <label for="shippingService">Service</label>
+                                <input type="text" class="form-control" id="shippingService" ng-model="shipment.service">
+                            </span>
+                            <span class="form-group" style="display:inline-block">
+                                <label for="trackingNumber">Tracking Number</label>
+                                <input type="text" class="form-control" id="trackingNumber" ng-model="shipment.trackingNumber">
+                            </span>
+                            <span class="form-group" style="display:inline-block">
+                                <label for="packageLength">Package Length</label>
+                                <input type="number" class="form-control" id="packageLength" ng-model="shipment.packageLength">
+                            </span>
+                            <span class="form-group" style="display:inline-block">
+                                <label for="packageWidth">Package Width</label>
+                                <input type="number" class="form-control" id="packageWidth" ng-model="shipment.packageWidth">
+                            </span>
+                            <span class="form-group" style="display:inline-block">
+                                <label for="packageDepth">Package Depth</label>
+                                <input type="number" class="form-control" id="packageDepth" ng-model="shipment.packageDepth">
+                            </span>
+                            <span class="form-group" style="display:inline-block">
+                                <label for="postageCost">Postage Cost</label>
+                                <input type="number" class="form-control" id="postageCost" ng-model="shipment.postageCost">
+                            </span>
+                            <span class="form-group" style="display:inline-block">
+                                <label for="signatureRequired">Signature Required</label>
+                                <input type="text" class="form-control" id="signatureRequired" ng-model="shipment.signatureRequired">
+                            </span>
+                            <span class="form-group" style="display:inline-block">
+                                <label for="shippingMaterials">Shipping Materials</label>
+                                <input type="text" class="form-control" id="shippingMaterials" ng-model="shipment.shippingMaterials">
+                            </span>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+                <span class="form-group" style="display:inline-block; margin-bottom:0; float:right">
+                    <button ng-click="addSaleTransaction(newSaleTrans)" class="btn btn-info btn-sm">Post Sale</button>
+                </span>
+        </div>
+
+    </div>
+
+
+</form>
+
+

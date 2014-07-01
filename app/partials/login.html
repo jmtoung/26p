@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <h3 class="panel-title">Log In</h3>
+    </div>
+
+    <div class="panel-body">
+        <form role="form" ng-submit="login(email, password, rememberMe)">
+            <div class="form-group">
+                <label for="exampleInputEmail">Email</label>
+                <input type="email" class="form-control" id="exampleInputEmail" placeholder="Email" ng-model="email">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password" ng-model="password">
+            </div>
+
+            <div>
+                <label>Remember Me</label>
+                <input type="checkbox" ng-model="rememberMe">
+            </div>
+
+
+            <button type="submit" class="btn btn-default">Submit</button>
+
+        </form>
+    </div>
+</div>

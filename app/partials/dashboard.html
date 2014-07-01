@@ -1,0 +1,73 @@
+<div class="row">
+
+    <div class="page-header">
+        <h1>Dashboard<small> {{currentUser.email}}</small></h1>
+    </div>
+
+
+
+    <!--<div class="btn-group">-->
+    <!--<span ng-repeat="store in currentUser.stores">-->
+        <!--&lt;!&ndash;<button type="button" class="btn btn-default" ng-click="setCurrentStore(currentUser, store)">{{store.name}}</button>&ndash;&gt;-->
+        <!--<button type="button" class="btn btn-default" ng-click="selectCurrentStore(currentUser, store)" ng-class="getStoreClass(store)">{{store.name}}</button>-->
+    <!--</span>-->
+
+    <!--<span>-->
+        <!--<button type="button" class="btn btn-default" ng-click="addStore()">Create New Store</button>-->
+    <!--</span>-->
+
+    <!--</div>-->
+
+    <!--<div class="btn-group">-->
+    <!--<span>-->
+        <!--<button type="button" class="btn btn-default" ng-click="addInventory()">Add New Inventory</button>-->
+    <!--</span>-->
+
+
+    <!--</div>-->
+
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-condensed table-hover">
+
+            <tr ng-show="currentUser.currentStore">
+                <th title="owner"></th>
+                <th title="owner">Owner</th>
+                <th title="purchaseDate">Purchase Date</th>
+                <th title="purchaseTime">Purchase Time</th>
+                <th title="itemNumber">Item Number</th>
+                <th title="purchasePrice">Purchase Price</th>
+            </tr>
+            <tr ng-repeat="inv in inventory">
+                <td>
+                    <div class="text-center">
+
+                        <button type="button" class= "btn btn-default btn-xs" ng-click="postSale(inv)">
+                            <span class="glyphicon glyphicon-usd"></span> Sale</button>
+                        <button type="button" class= "btn btn-default btn-xs" ng-click="editInv(inv)">
+                            <span class="glyphicon glyphicon-pencil"></span> Edit</button>
+                        <button type="button" class= "btn btn-default btn-xs" ng-click="deleteInv(inv)">
+                            <span class="glyphicon glyphicon-trash"></span> Delete</button>
+                    </div>
+                </td>
+                <td>{{inv.owner}}</td>
+
+                <td>{{inv.purchaseDate}}</td>
+                <td>{{inv.purchaseTime}}</td>
+                <td>{{inv.itemNumber}}</td>
+                <td>{{inv.purchasePrice | currency:"$"}}</td>
+
+
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <!--<div>{{currentUser}}</div>-->
+
+
+</div>
+

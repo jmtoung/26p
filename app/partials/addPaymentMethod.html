@@ -1,0 +1,172 @@
+<container>
+<div class="well" style="border:none; background-color: transparent; border-radius:0">
+    <form role="form" name="addNewPurchaserForm" novalidate ng-submit="submitInsert(newInv)">
+        <div class="row">
+
+            <div class="page-header">
+                <h2>Add Payment Method</h2>
+            </div>
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h4>Purchaser Information</h4></div>
+
+                    <div class="panel-body">
+                        <div class="well" style="border:none; background-color: transparent; border-radius: 0">
+                            <label for="purchaser">Purchaser*</abbr></label>
+                            <select class="form-control" id="purchaser" ng-model="newPaymentMethod.purchaser" ng-options="purchaser.displayName for purchaser in purchasers"></select>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h4>Payment Methods Information</h4></div>
+
+                    <div class="well" style="margin:15px; background-color: transparent">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                        <span class="form-group" style="display: inline-block; margin-bottom:0">
+                                            <label for="paymentType">Payment Type*</abbr></label>
+                                            <select class="form-control" id="paymentType" ng-model="newPaymentMethod.type" name="addNewPurchaserForm" ng-options="paymentType for paymentType in paymentTypes"></select>
+                                        </span>
+                            </div>
+
+                        </div>
+
+                        <div ng-switch on="newPaymentMethod.type">
+                            <div ng-switch-when="Credit Card">
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                                <label for="cardType">Card Type*</label>
+                                                <select class="form-control" id="cardType" ng-model="newPaymentMethod.cardType" name="addNewPurchaserForm" ng-options="cardType for cardType in cardTypes"></select>
+                                            </span>
+                                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                                <label for="cardNumber">Card Number*</label>
+                                                <input type="text" class="form-control" id="cardNumber" required ng-model="newPaymentMethod.accountNumber" ng-pattern="/^\d{4}$/" placeholder="Last 4 Digits"/>
+                                            </span>
+                                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                                <label for="expirationDate">Expiration Date*</label>
+                                                <input type="date" class="form-control" id="expirationDate" required ng-model="newPaymentMethod.expirationDate" placeholder="Expiration Date"/>
+                                            </span>
+                                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                                <label for="issuingBank">Issuing Bank</label>
+                                                <input type="text" class="form-control" id="issuingBank" required ng-model="newPaymentMethod.bank" placeholder="Issuing Bank"/>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-switch-when="Bank Account">
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                                <label for="institution">Banking Institution</label>
+                                                <input type="text" class="form-control" id="institution" required ng-model="newPaymentMethod.bank" placeholder="Banking Institution"/>
+                                            </span>
+                                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                                <label for="accountNumber">Account Number*</label>
+                                                <input type="number" class="form-control" id="accountNumber" required ng-model="newPaymentMethod.accountNumber" ng-pattern="/^\d{4}$/" placeholder="Last 4 Digits"/>
+                                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-switch-when="Paypal">
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                            <span class="form-group" style="display:inline-block; margin-bottom:0">
+                                                <label for="emailAddress">Email Address</label>
+                                                <input type="email" class="form-control" id="emailAddress" required ng-model="newPaymentMethod.accountNumber" placeholder="Institution"/>
+                                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-switch-default>
+
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                        <span class="form-group" style="display:inline-block; margin-bottom:0; float:right">
+                                            <input type="submit" class="btn btn-info btn-sm" value="Add Payment Method" ng-click="queuePaymentMethod()"/>
+                                        </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="panel panel-default" style="margin:15px" ng-show="paymentMethodTypeCheck('Credit Card')">
+                        <div class="panel-heading" style="background-color: lightblue"><h5>Credit Cards</h5></div>
+                            <table class="table">
+                                <tr>
+                                    <th>Card Type</th>
+                                    <th>Card Number</th>
+                                    <th>Expiration Date</th>
+                                    <th>Issuing Bank</th>
+                                </tr>
+
+                                <tr ng-repeat="p in queuedPaymentMethods | filter:{ type: 'Credit Card'}">
+                                    <td><input type="text"  ng-model="p.cardType"/></td>
+                                    <td><input type="text"  ng-model="p.accountNumber"/></td>
+                                    <td><input type="date"  ng-model="p.expirationDate"/></td>
+                                    <td><input type="text"  ng-model="p.bank"/></td>
+
+                                </tr>
+                            </table>
+                    </div>
+
+                    <div class="panel panel-default" style="margin:15px" ng-show="paymentMethodTypeCheck('Bank Account')">
+                        <div class="panel-heading" style="background-color: lightsalmon"><h5>Bank Accounts</h5></div>
+                        <table class="table">
+                            <tr>
+                                <th>Institution</th>
+                                <th>Account Number</th>
+                            </tr>
+
+                            <tr ng-repeat="p in queuedPaymentMethods | filter:{ type: 'Bank Account'}">
+                                <td><input type="text"  ng-model="p.bank"/></td>
+                                <td><input type="number"  ng-model="p.accountNumber"/></td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-12">
+
+
+            <button type="submit" class="btn btn-primary btn-block" ng-click="addPaymentMethods()">Add Payment Methods</button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+</container>
+
+
+

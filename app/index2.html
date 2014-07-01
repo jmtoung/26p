@@ -1,0 +1,141 @@
+
+<div class="container-fluid" id="wrapper" ng-controller="MainCtrl" style="padding: 0px; background-color: red">
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="...">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">primple</a>
+        </div>
+
+
+        <form class="navbar-form navbar-right" ng-if="!currentUser">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Email" ng-model="email">
+                <input type="password" class="form-control" placeholder="Password" ng-model="password">
+            </div>
+            <button ng-click="login(email,password)" class="btn btn-default">Log In</button>
+            <button ng-click="signup()" class="btn btn-default">Sign Up</button>
+        </form>
+
+        <ul class="nav navbar-top-links navbar-right" ng-if="currentUser">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    <!--<i class="fa fa-building fa-fw"></i> {{currentStore.name}}  <i class="fa fa-caret-down"></i>-->
+                    <i class="fa fa-building fa-fw"></i> <span ng-bind="currentStore.name"></span> <i
+                        class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-messages">
+                    <li ng-repeat-start="store in currentUser.stores">
+                        <a ng-click="changeCurrentStore(store)">
+                            <div class="text-center">
+                                <!--<i class="fa fa-building fa-fw"></i> <strong>{{store.name}}</strong>-->
+                                <i class="fa fa-building fa-fw"></i> <strong><span ng-bind="store.name"></span> </strong>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider" ng-repeat-end></li>
+                    <li class="divider"></li>
+                    <li>
+                        <a class="text-center" href="#/addStore">
+                            <i class="fa fa-plus-square fa-fw"></i>
+                            <strong>Add New Store</strong>
+                            <i class="fa fa-caret-right fa-fw"></i>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a class="text-center" href="#/stores">
+                            <i class="fa fa-circle-o-notch fa-fw"></i>
+                            <strong>Manage Stores</strong>
+                            <i class="fa fa-caret-right fa-fw"></i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    <!--<i class="fa fa-user fa-fw"></i> {{currentUser.email}} <i class="fa fa-caret-down"></i>-->
+                    <i class="fa fa-user fa-fw"></i> <span ng-bind="currentUser.email"></span> <i
+                        class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
+                    <li class="divider"></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="navbar-default navbar-static-side" role="navigation" ng-if="currentUser">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        </span>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a><i class="fa fa-bar-chart-o fa-fw"></i> Reports<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="flot.html">Profits</a>
+                            </li>
+                            <li>
+                                <a href="morris.html">Sales</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#/inventory"><i class="fa fa-table fa-fw"></i> Inventory</a>
+                    </li>
+                    <li>
+                        <a><i class="fa fa-edit fa-fw"></i> Transactions<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="text.html">All</a>
+                            </li>
+                            <li>
+                                <a href="text.html">Sales</a>
+                            </li>
+                            <li>
+                                <a href="text.html">Purchases</a>
+                            </li>
+                            <li>
+                                <a href="text.html">Returns & Damages</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+                <!-- /#side-menu -->
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+
+
+    </nav>
+
+    <div id="page-wrapper" ng-class="pageWrapperClass()">-->
+        <div ng-view></div>
+    </div>
+
+</div>
